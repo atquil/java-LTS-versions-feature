@@ -1,4 +1,4 @@
-package java_8._1_lambda_expressions;
+package java_8._1_Lambda_Expressions;
 
 
 import java.util.ArrayList;

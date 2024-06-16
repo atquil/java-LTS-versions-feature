@@ -288,3 +288,248 @@ public class _5_StreamUsingLambda {
 }
 
 ```
+
+## Method Reference
+
+Method reference is used to refer method of functional interface.It is a compact and easy form of lambda expression. Each time when you are using lambda expression to just referring a method, you can replace your lambda expression with method reference.
+
+There are three ways of doing method references: 
+1. Reference to a static method. 
+2. Reference to an instance method. 
+3. Reference to a constructor.
+
+### Reference to a static method
+
+```
+Interview Question ? What is BiFunction ?
+BiFunction is a functional interface, which also specify the return type of a function
+@FunctionalInterface  
+public interface BiFunction<Arg1,Arg2,Result>
+public interface Function<Arg,Result>
+ moreover have two method 
+- apply() which returns the function result
+- andThen() when needs to return composed function
+```
+```java
+class Arithmetic{
+    public static int add(int a, int b){
+        return a+b;
+    }
+
+    public static Integer squareOfNumber(Integer integer) {
+        return integer*integer;
+    }
+}
+    @FunctionalInterface
+interface SomeAbstractInterFace{
+    void printSomething();
+}
+public class _1_ReferenceToStaticMethod {
+
+    public static void someStaticMethod(){
+        System.out.println("I am a static method");
+    }
+
+    public static void main(String[] args) {
+
+        //Refer to static method
+        SomeAbstractInterFace someAbstractInterFace = _1_ReferenceToStaticMethod::someStaticMethod;
+        someAbstractInterFace.printSomething();
+
+        //Using predefined functional interface
+        Thread t = new Thread(_1_ReferenceToStaticMethod::someStaticMethod);
+        t.start();
+
+        //BiFunction <Arg1,Arg2,Result>
+        BiFunction<Integer, Integer, Integer> add = Arithmetic::add;
+
+        //Function<Arg,Result>
+        Function<Integer, Integer> square = Arithmetic:: squareOfNumber;
+
+        int result1 = add.apply(10, 20);
+        int result2 = add.andThen(square).apply(10, 20);
+
+        System.out.println("Addition of 10 and 20 is:"+result1);
+        System.out.println("Addition and then square of 10 and 20 is :"+result2);
+    }
+}
+
+```
+
+### Reference to an Instance Method
+
+```java
+public class _2_ReferenceToInstanceMethod {
+    public static void main(String[] args) {
+        Thread t = new Thread(new _2_ReferenceToInstanceMethod()::someMethod);
+        t.start();
+    }
+
+    //Instance Method
+    void someMethod(){
+        System.out.println("I am a instance method");
+    }
+}
+
+```
+
+### Reference to an Constructor
+
+```java
+class SomeClass{
+    SomeClass() {
+        System.out.println("Some Constructor Class is being called");
+    }
+}
+@FunctionalInterface
+interface SomeInterface{
+    SomeClass callConstructor();
+}
+public class _3_ReferenceToConstructor {
+    public static void main(String[] args) {
+        SomeInterface someInterface = SomeClass::new;
+        someInterface.callConstructor();
+    }
+}
+
+```
+
+```
+Output:
+Some Constructor Class
+```
+
+## Functional Interface
+An Interface that contains **exactly one abstract method** is known as functional interface.
+It can have **any number of default, static methods** but can contain only one abstract method. 
+It can also declare methods of object class. 
+
+Functional Interface is also known as **Single Abstract Method Interfaces or SAM Interfaces**
+
+A functional interface will call the defalult constructor of a call. 
+
+```java
+class SomeClass{
+    SomeClass() {
+        System.out.println("Default constructor is being called");
+    }
+    SomeClass(String a){
+        System.out.println("This will not be called");
+    }
+}
+@FunctionalInterface
+interface SomeInterface{
+    SomeClass callConstructor();
+}
+public class _3_ReferenceToConstructor {
+    public static void main(String[] args) {
+
+        SomeInterface someInterface = SomeClass::new;
+        someInterface.callConstructor();
+    }
+}
+
+```
+
+```
+Output::
+Default constructor is being called
+```
+
+2. A functional interface can extends another interface only **when it does not have any abstract method.**
+
+### Optional Class
+
+```
+To deal with NullPointerException : java.util
+```
+
+These are some of the use case of Optional Class
+
+```java
+public class OptionalClass {
+    public static void main(String[] args) {
+        List<String> someString = Arrays.asList("A","B","C");
+
+        Optional<List<String>> stringsValues = Optional.of(someString);
+
+        System.out.println(stringsValues.isEmpty());
+        System.out.println(stringsValues.isPresent());
+        System.out.println(stringsValues.get());
+        //It returns an empty Optional object. No value is present for this Optional.
+        System.out.println(stringsValues.isEmpty());
+        //It returns the hash code value of the present value, if any, or returns 0 (zero) if no value is present.
+        System.out.println(stringsValues.hashCode());
+        //It returns the contained value, if present, otherwise throw an exception to be created by the provided supplier.
+        System.out.println(stringsValues.orElseThrow(IllegalArgumentException::new));
+        //It returns the value if present, otherwise returns other.
+        System.out.println(stringsValues.orElse(List.of("Some value")));
+        //It returns a non-empty string representation of this Optional suitable for debugging
+        System.out.println(stringsValues.toString());
+        //Method
+        someString.stream().filter(s -> s.contains("A")).forEach(System.out::println);
+
+    }
+}
+
+```
+
+Output::
+
+```
+false
+true
+[A, B, C]
+false
+94369
+[A, B, C]
+[A, B, C]
+Optional[[A, B, C]]
+A
+```
+
+
+### forEach
+
+```
+ **Collection classes** which extends **Iterable interface** use forEach loop **to iterate elements**.
+```
+
+```
+What is the difference between forEach() and forEachOrdered() ?
+
+forEach() : More efficient, helps in parallelStreams, here order of processing is not important
+forEachOrdered(): When order of processing is crucial like when dealing with time-series data or sequence of element. 
+```
+
+```java
+public class ForEachClass {
+
+    public static void main(String[] args) {
+        List<String> someList = List.of("A","B","C");
+        //Simple for each
+        someList.stream().parallel().forEach(System.out::println);
+
+        System.out.println("----------------");
+        //forEachOrdered: order of processing is important
+        someList.stream()
+                .map(String::toLowerCase)
+                .forEachOrdered(System.out::println);
+
+    }
+}
+
+```
+
+Output::
+
+```
+B
+C
+A
+----------------
+a
+b
+c
+
+```

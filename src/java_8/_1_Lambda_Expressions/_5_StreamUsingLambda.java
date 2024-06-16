@@ -1,9 +1,7 @@
-package java_8._1_lambda_expressions;
+package java_8._1_Lambda_Expressions;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
