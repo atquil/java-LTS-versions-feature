@@ -1,25 +1,16 @@
 package java_8._2_Method_References;
-
-/**
- * @author atquil
- */
-
-class SomeClass{
-    SomeClass() {
-        System.out.println("Default constructor is being called");
-    }
-    SomeClass(String a){
-        System.out.println("This will not be called");
+class SomeClassForRefrence{
+    SomeClassForRefrence() {
+        System.out.println("Some Constructor Class is being called");
     }
 }
 @FunctionalInterface
-interface SomeInterface {
-    SomeClass callConstructor();
+interface SomeInterface{
+    SomeClassForRefrence callConstructor();
 }
-public class _3_ReferenceToConstructor  {
+public class _3_ReferenceToConstructor {
     public static void main(String[] args) {
-
-        SomeInterface someInterface = SomeClass::new;
+        SomeInterface someInterface = SomeClassForRefrence::new;
         someInterface.callConstructor();
     }
 }
