@@ -1,5 +1,7 @@
 package java_8._3_Interfaces;
 
+import javax.swing.plaf.PanelUI;
+
 /**
  * @author atquil
  */
@@ -22,7 +24,22 @@ interface InterfaceContains{
     //Object Method
     String toString();
 }
-public class _1_Interface implements InterfaceContains {
+
+abstract class SomeAbstractClass{
+    //Instead of default method we have Constructor
+    public SomeAbstractClass(){
+        System.out.println("It's the constructor");
+    }
+
+    //Abstract method with no method body
+    abstract String someAbstractMethodFromClass();
+
+    static void someStaticMethod(int a){
+        System.out.println("Age::"+a);
+    }
+
+}
+public class _1_Interface extends SomeAbstractClass implements InterfaceContains {
 
     public static void main(String[] args) {
 
@@ -31,6 +48,12 @@ public class _1_Interface implements InterfaceContains {
         _1_Interface somethingMethod = new _1_Interface();
         somethingMethod.someDefaultMethod();
         somethingMethod.someAbstractMethod();
+
+        System.out.println("--------------------------");
+        //AbstractClass
+        somethingMethod.someAbstractMethodFromClass();
+        SomeAbstractClass.someStaticMethod(2);
+
     }
 
     //Overriding the default method
@@ -44,5 +67,12 @@ public class _1_Interface implements InterfaceContains {
     @Override
     public void someAbstractMethod() {
         System.out.println("I am Abstract Method");
+    }
+
+    //Implementing Abstract method from class
+    @Override
+    String someAbstractMethodFromClass() {
+        System.out.println("Doing something");
+        return "Something";
     }
 }

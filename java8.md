@@ -401,7 +401,7 @@ Some Constructor Class
 
 ### Interface 
 
-#### Interface: 
+#### Interface Modification: 
 
 An interface in Java is a blueprint of a class that defines the behavior of a class.
 An interface helps in achieving **abstraction** i.e. hdiding the implementation details and showing only the functionaliity. 
@@ -432,7 +432,22 @@ interface InterfaceContains{
     //Object Method
     String toString();
 }
-public class _1_Interface implements InterfaceContains {
+
+abstract class SomeAbstractClass{
+    //Instead of default method we have Constructor
+    public SomeAbstractClass(){
+        System.out.println("It's the constructor");
+    }
+
+    //Abstract method with no method body
+    abstract String someAbstractMethodFromClass();
+
+    static void someStaticMethod(int a){
+        System.out.println("Age::"+a);
+    }
+
+}
+public class _1_Interface extends SomeAbstractClass implements InterfaceContains {
 
     public static void main(String[] args) {
 
@@ -441,6 +456,12 @@ public class _1_Interface implements InterfaceContains {
         _1_Interface somethingMethod = new _1_Interface();
         somethingMethod.someDefaultMethod();
         somethingMethod.someAbstractMethod();
+
+        System.out.println("--------------------------");
+        //AbstractClass
+        somethingMethod.someAbstractMethodFromClass();
+        SomeAbstractClass.someStaticMethod(2);
+
     }
 
     //Overriding the default method
@@ -455,11 +476,29 @@ public class _1_Interface implements InterfaceContains {
     public void someAbstractMethod() {
         System.out.println("I am Abstract Method");
     }
+
+    //Implementing Abstract method from class
+    @Override
+    String someAbstractMethodFromClass() {
+        System.out.println("Doing something");
+        return "Something";
+    }
 }
 
 
 ```
+Output::
 
+```
+Implementing static method::I am from main
+It's the constructor
+Implemention of default method is must
+Default method ends
+I am Abstract Method
+--------------------------
+Doing something
+Age::2
+```
 
 #### Functional Interface
 An Interface that contains **exactly one abstract method** is known as functional interface.
@@ -496,6 +535,13 @@ public class _3_ReferenceToConstructor {
 ```
 Output::
 Default constructor is being called
+```
+
+```
+Interview Question ?
+
+What is the difference between Abstract Class and interface ?
+Both are similar except that we can **create constructor** in abstract class whereas we can't in interface. 
 ```
 
 2. A functional interface can extends another interface only **when it does not have any abstract method.**
@@ -607,7 +653,8 @@ Drawbacks of existing Date/Time API's :
 
 New package introduced several classes like: 
 
-```public class DateTimeClass {
+```
+public class DateTimeClass {
     public static void main(String[] args) {
         //These are the several methods that are useful, some of them are
 
