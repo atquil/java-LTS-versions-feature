@@ -399,9 +399,9 @@ Output:
 Some Constructor Class
 ```
 
-### Interface 
+## Interface 
 
-#### Interface Modification: 
+### Interface Modification: 
 
 An interface in Java is a blueprint of a class that defines the behavior of a class.
 An interface helps in achieving **abstraction** i.e. hdiding the implementation details and showing only the functionaliity. 
@@ -500,7 +500,7 @@ Doing something
 Age::2
 ```
 
-#### Functional Interface
+### Functional Interface
 An Interface that contains **exactly one abstract method** is known as functional interface.
 It can have **any number of default, static methods** but can contain only one abstract method. 
 It can also declare methods of object class. 
@@ -546,7 +546,7 @@ Both are similar except that we can **create constructor** in abstract class whe
 
 2. A functional interface can extends another interface only **when it does not have any abstract method.**
 
-### Optional Class
+## Optional Class
 
 ```
 To deal with NullPointerException : java.util
@@ -597,7 +597,7 @@ A
 ```
 
 
-### forEach
+## forEach
 
 ```
  **Collection classes** which extends **Iterable interface** use forEach loop **to iterate elements**.
@@ -642,7 +642,7 @@ c
 
 ```
 
-### Date/Time API
+## Date/Time API
 
 Why need of new data and time API: 
 
@@ -677,5 +677,38 @@ EPOCH, or Nanosecond or EPOCH time:2024-06-16T05:18:06.351284Z
 Period: Difference between dates:P-30Y-6M-15D
 ```
 
-### 
+## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
+
+
+## String joiner
+
+What ?
+- final class StringJoiner in java.util package.
+- StringJoiner(CharSequence delimiter): It is used to construct a sequence of characters separated by a delimiter e.g. (,), (-)
+- StringJoiner(CharSequence delimiter,CharSequence prefix,CharSequence suffix) : We can also add **prefix** and **suffix**
+
+```java
+public class StringJoiners {
+    public static void main(String[] args) {
+
+        StringJoiner someJoiners = new StringJoiner(",","Names:",": End");
+
+        // We can set default empty value.
+        someJoiners.setEmptyValue("Default Value");
+        System.out.println(someJoiners);
+
+        // Adding values to StringJoiner
+        someJoiners.add("Atul");
+        someJoiners.add("Anand");
+        someJoiners.add("Atquil");
+
+        System.out.println(someJoiners);
+        System.out.println("CharLength: "+someJoiners.length());
+        System.out.println("To String: "+someJoiners.toString());
+    }
+}
+
+```
+
+## Collectors
 
