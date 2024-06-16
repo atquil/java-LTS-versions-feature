@@ -399,7 +399,69 @@ Output:
 Some Constructor Class
 ```
 
-## Functional Interface
+### Interface 
+
+#### Interface: 
+
+An interface in Java is a blueprint of a class that defines the behavior of a class.
+An interface helps in achieving **abstraction** i.e. hdiding the implementation details and showing only the functionaliity. 
+A class that implements the interface, **must provide the body of all the abstract methods in the interface**. 
+
+An interface can be used to achieve **multiple inheritence**, moreover interface can extend another interface, but a class can only extends one class. 
+
+Interface represents **IS-A relationship** i.e, a class that implements an interface belongs to the type of that interface. 
+
+A interface can have : **default, abstract , static , object ** methods. 
+
+```java
+interface InterfaceContains{
+
+    //Default Method
+    default void someDefaultMethod(){
+        System.out.println("Implemention of default method is must");
+    }
+
+    //Abstract Method
+    void someAbstractMethod();
+
+    //Static Method
+    static void someStaticMethodWhichCanBeCalledDirectly(String str){
+        System.out.println("Implementing static method::"+str);
+    }
+
+    //Object Method
+    String toString();
+}
+public class _1_Interface implements InterfaceContains {
+
+    public static void main(String[] args) {
+
+        InterfaceContains.someStaticMethodWhichCanBeCalledDirectly("I am from main");
+
+        _1_Interface somethingMethod = new _1_Interface();
+        somethingMethod.someDefaultMethod();
+        somethingMethod.someAbstractMethod();
+    }
+
+    //Overriding the default method
+    @Override
+    public void someDefaultMethod() {
+        //Super to print the values contains in default method
+        InterfaceContains.super.someDefaultMethod();
+        System.out.println("Default method ends");
+    }
+
+    @Override
+    public void someAbstractMethod() {
+        System.out.println("I am Abstract Method");
+    }
+}
+
+
+```
+
+
+#### Functional Interface
 An Interface that contains **exactly one abstract method** is known as functional interface.
 It can have **any number of default, static methods** but can contain only one abstract method. 
 It can also declare methods of object class. 
@@ -533,3 +595,40 @@ b
 c
 
 ```
+
+### Date/Time API
+
+Why need of new data and time API: 
+
+Drawbacks of existing Date/Time API's :
+1. **Thread safety**: The existing classes such as Date and Calendar does not provide thread safety. Hence it leads to hard-to-debug concurrency issues that are needed to be taken care by developers. The new Date and Time APIs of Java 8 provide thread safety and are immutable, hence avoiding the concurrency issue from developers. 
+2. **Bad API designing**: The classic Date and Calendar APIs does not provide methods to perform basic day-to-day functionalities. The Date and Time classes introduced in Java 8 are ISO-centric and provides number of different methods for performing operations regarding date, time, duration and periods.
+3. **Difficult time zone handling**: To handle the time-zone using classic Date and Calendar classes is difficult because the developers were supposed to write the logic for it. With the new APIs, the time-zone handling can be easily done with Local and ZonedDate/Time APIs.
+
+New package introduced several classes like: 
+
+```public class DateTimeClass {
+    public static void main(String[] args) {
+        //These are the several methods that are useful, some of them are
+
+        System.out.println("LocalDate in ISO calender:"+ LocalDate.now());
+        System.out.println("ZonedDateTime in ISO calender:"+ ZonedDateTime.now());
+        System.out.println("Offset from Greenwich/UTC without a time zone ID:"+ OffsetDateTime.now(ZoneId.systemDefault()));
+        System.out.println("EPOCH, or Nanosecond or EPOCH time:"+ Instant.now());
+        System.out.println("Period: Difference between dates:"+ Period.between(LocalDate.now(),LocalDate.of(1993,12,1)));
+
+    }
+}
+```
+
+Output::
+```
+LocalDate in ISO calender:2024-06-16
+ZonedDateTime in ISO calender:2024-06-16T10:48:06.350829+05:30[Asia/Kolkata]
+Offset from Greenwich/UTC without a time zone ID:2024-06-16T10:48:06.351181+05:30
+EPOCH, or Nanosecond or EPOCH time:2024-06-16T05:18:06.351284Z
+Period: Difference between dates:P-30Y-6M-15D
+```
+
+### 
+

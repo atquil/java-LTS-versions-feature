@@ -1,4 +1,4 @@
-package java_8._3_Functional_Interfaces;
+package java_8._3_Interfaces;
 
 /**
  * @author atquil
