@@ -72,7 +72,7 @@ public class _1_SimpleLambdaExpression {
 ```
 Output: 
 
-```java
+```
 Employee Name is Aman 
 Total Salary of Employee:Aman is 20
 Total Salary of Employee:Aman is 20
@@ -104,7 +104,7 @@ public class _2_ForEachWithLambda {
 ```
 Output:
 
-```java
+```
 Atul
 Anand
 Atquil
@@ -340,7 +340,7 @@ public class _1_ReferenceToStaticMethod {
         Thread t = new Thread(_1_ReferenceToStaticMethod::someStaticMethod);
         t.start();
 
-        //BiFunction <Arg1,Arg2,Result>
+        //_3_PredicateAndBiPredicate <Arg1,Arg2,Result>
         BiFunction<Integer, Integer, Integer> add = Arithmetic::add;
 
         //Function<Arg,Result>
@@ -546,6 +546,61 @@ Both are similar except that we can **create constructor** in abstract class whe
 
 2. A functional interface can extends another interface only **when it does not have any abstract method.**
 
+### Predicate and BiPredicate
+
+**Predicate** is a functional interface that represents a boolean-valued function that **takes one argument**. 
+Similarly, a **BiPredicate** is an interface that extends Predicate to handle **two input arguments**
+
+Imp: If we have return type only boolean, instead of defining some method name, we can use them 
+Reason: BiPredicate provide some useful chaining. 
+
+```java
+public class _3_PredicateAndBiPredicate {
+    public static void main(String[] args) {
+
+
+        //IsSum Even.
+        BiPredicate<Integer, Integer> isSumEven = (a, b) -> (a + b) % 2 == 0;
+        boolean result1 = isSumEven.test(10, 20);
+        System.out.println("isSumEven"+result1);
+
+        //Is Sum greater then 20
+        BiPredicate<Integer, Integer> isSumGreater = (a, b) -> (a + b) > 10;
+        boolean result2 = isSumEven.test(10, 20);
+        System.out.println("isSumGreaterThen10"+result2);
+
+
+        //Chaining with and
+        BiPredicate<Integer, Integer> combined = isSumEven.and(isSumGreater);
+        boolean result3 = combined.test(10, 20);
+        System.out.println("isSumEvenAndGreaterThen10"+result3);
+
+        //Chaining with or
+        BiPredicate<Integer, Integer> only = isSumEven.or(isSumGreater);
+        boolean result4 = only .test(1, 20);
+        System.out.println("isSumEvenOrGreaterThen10"+result4);
+
+        //With Streams
+        List<String> names = Arrays.asList("Atquil", "Atul", "Anand");
+        BiPredicate<String, Integer> isNameLengthGreaterThan = (name, length) -> name.length() > length;
+        List<String> longNames = names.stream()
+                .filter(name -> isNameLengthGreaterThan.test(name, 5))
+                .collect(Collectors.toList());
+        System.out.println("Names with length greater than 5 characters: " + longNames);
+    }
+}
+
+
+```
+Output::
+```
+isSumEventrue
+isSumGreaterThen10true
+isSumEvenAndGreaterThen10true
+isSumEvenOrGreaterThen10true
+Names with length greater than 5 characters: [Atquil]
+```
+
 ## Optional Class
 
 ```
@@ -716,6 +771,9 @@ Features of stream::
 3. It's Lazy and evaluates code only when required.
 4. One element is visited only once in it's lifetime. 
 
+Streams:
+- Serial Stream till we use parallelStream to leverage multi-thread
+- LazyStream: Streams are Lazy loading, as till the **terminal operation** like **collect, forEach or reduce** is invoked, intermediate operations like filter, map and sorted are not executed. 
 There are many use-case for Stream, listing some of them here :: 
 
 ```java
@@ -881,13 +939,231 @@ Atquil
 Atquil
 ---There are many more please check based on utilisation-
 ```
+## Future and CompletableFuture
 
-## Collection: 
+- **java.util.concurrent**
+**_Future_**: It represents a future result of an asynchronous computation; a result that will eventually appear in the Future after the processing is complete. However, it does not allow you to manually complete it with a value or an exception, and it doesn’t provide methods to combine these futures or handle possible errors.
+**_CompletableFuture_**: It is an extension of Future that allows you to manually complete it with a value or an exception, and it provides a lot of methods for composing, combining, and handling errors for asynchronous computations. This makes CompletableFuture more flexible and powerful than Future.
+
+
+In the Future example, you have to wait for the computation to complete with get(), which blocks the current thread. In the CompletableFuture example, you can attach callbacks such as thenAccept() that will be executed once the computation is complete, without blocking the current thread. You can also use get() if you need to wait for the result.
+
+```java
+public class _1_FutureVsCompletableFuture {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+
+        Future<Integer> future = executorService.submit(() -> {
+            // Simulate long running task
+            TimeUnit.SECONDS.sleep(2);
+            System.out.println("Future Thread Pool Executor::"+Thread.currentThread().getName());
+            return 123;
+        });
+
+        // --- We can do some calculation this the timeOut
+        System.out.println("Executed First");
+
+        //Blocking, as if we need to use the future return value it will be blocked here
+        Integer result = future.get(); // This line blocks, waiting for the result
+        executorService.shutdown();
+
+        System.out.println("CompletableFuture");
+        // CompletableFuture
+        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() -> {
+        // Simulate long running task
+            try {
+                TimeUnit.SECONDS.sleep(2);
+                System.out.println("CompletableFuture Thread Pool Executor::"+Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                throw new IllegalStateException(e);
+            }
+            return 123;
+        });
+
+        // ... do something else ...
+        System.out.println("Non-blocking");
+        // Non-blocking and can handle the result with a callback
+        completableFuture.thenAccept(result2 -> System.out.println(result));
+
+        System.out.println("Still non blocking");
+        // Or block and get the result directly, if needed
+        Integer result2 = completableFuture.get();
+    }
+}
+
+```
+
+Output::
+```
+Executed First
+Future Thread Pool Executor::pool-1-thread-1
+CompletableFuture
+Non-blocking
+Still non blocking
+CompletableFuture Thread Pool Executor::ForkJoinPool.commonPool-worker-1
+123
+
+
+```
+CompletableFuture offers an extensive API consisting of more than 50 methods.
+Many of these methods are available in two variants: **Sync and async.**
+
+### Async Methods 
+
+CompletableFuture provides a powerful and flexible way to write **asynchronous, non-blocking code** that runs on different **thread**
+
+1. It uses **static method supplyAsync**, a lambda function to reutrn CompletebleFuture Object
+2. Composing CompletableFuture: **thenApply, thenCombine, thenCompose** to perform operation on results
+3. Exception handling using: ** handle, exceptionally**
+4. Runs on a separate **threadPool**
+
+```java
+public class _2_Asynchronous {
+    public static void main(String[] args)  {
+        System.out.println("Main thread::"+Thread.currentThread().getName());
+        // SupplyAsync
+        try {
+
+        CompletableFuture<String> someCounting = CompletableFuture
+                .supplyAsync(()-> {
+                    System.out.println("Thread Pool::"+Thread.currentThread().getName());
+                    // Simulate long running task
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        throw new IllegalStateException(e);
+                    }
+                    return "Done";
+                });
+        CompletableFuture<Integer> charLength = someCounting.thenApplyAsync(value -> {
+                System.out.println("Thread Pool::"+Thread.currentThread().getName());
+                return value.length();
+            });
+        System.out.println(charLength.get());
+        } catch (InterruptedException |ExecutionException  e) {
+            throw new RuntimeException(e);
+        }
+
+        // As we can see above all thread pool is overloaded with only ForkJoinPool.commonPool-worker-1. Let's add custom Executor
+
+        //Custom Executor
+        Executor someExecutor = Executors.newFixedThreadPool(2);
+        try {
+
+            CompletableFuture<String> someCounting = CompletableFuture
+                    .supplyAsync(()-> {
+                        System.out.println("Thread Pool Executor::"+Thread.currentThread().getName());
+                        // Simulate long running task
+                        try {
+                            TimeUnit.SECONDS.sleep(2);
+                        } catch (InterruptedException e) {
+                            throw new IllegalStateException(e);
+                        }
+                        return "Done";
+                    },someExecutor);
+            CompletableFuture<Integer> charLength = someCounting.thenApplyAsync(value -> {
+                System.out.println("Thread Pool Executor::"+Thread.currentThread().getName());
+                return value.length();
+            },someExecutor);
+            System.out.println(charLength.get());
+        } catch (InterruptedException |ExecutionException  e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+        try {
+            CompletableFuture<String> getNames = CompletableFuture
+                    .supplyAsync(()->"Atquil");
+            CompletableFuture<Integer> getViewers = CompletableFuture
+                    .supplyAsync(()->10);
+
+            //Now first, let's combine the result of both
+            CompletableFuture<String> getNameAndViewers = getViewers.thenCombine(getNames,(first,second)->first +" "+ second);
+
+            System.out.println(getNameAndViewers.get());
+
+        }catch (InterruptedException |ExecutionException  e) {
+            throw new RuntimeException(e);
+        }
+
+
+        //Handle Exception
+
+        CompletableFuture<Integer> getNames = CompletableFuture
+                .supplyAsync(()->101/0)
+                .exceptionally(throwable -> 101010); //If exception return this value
+
+        try {
+            System.out.println("Return value::"+getNames.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+
+Output:::
+```
+Main thread::main
+Thread Pool::ForkJoinPool.commonPool-worker-1
+Thread Pool::ForkJoinPool.commonPool-worker-1
+4
+Thread Pool Executor::pool-1-thread-1
+Thread Pool Executor::pool-1-thread-2
+4
+10 Atquil
+Return value::101010
+```
+
+### Synchronous Methods
+
+utilizing **thenApply()**, we pass a function as a parameter that takes the previous value of the CompletableFuture as input, performs an operation, and returns a new value
+
+
+```java
+public class _3_Synchronous {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        System.out.println("Main thread::"+Thread.currentThread().getName());
+
+        CompletableFuture<String> name = CompletableFuture.supplyAsync(() ->{
+            System.out.println("Async so different thread"+Thread.currentThread().getName());
+            return "Atquil";
+        });
+        CompletableFuture<Integer> nameLength = name.thenApply(value -> {
+            System.out.println("Synchronous, so parent thread::"+Thread.currentThread().getName());
+            return value.length();
+        });
+        System.out.println("Name:: "+name.get());
+        System.out.println("CharLength::"+nameLength.get());
+
+
+    }
+}
+
+
+```
+
+Output:::
+
+```
+Main thread::main
+Async so different threadForkJoinPool.commonPool-worker-1
+Synchronous, so parent thread::main
+Name:: Atquil
+CharLength::6
+
+```
+
+
+## Collection 
+
+Parallel Sorting : Behave same, but use multithreading.
+Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
 
 ## Base64 Encoding/Encryption and Decoding/Decryption
 
-## Parallel Sorting : Behave same, but use multithreading.
-Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
 
 ## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
 

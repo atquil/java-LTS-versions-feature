@@ -35,7 +35,7 @@ public class _1_ReferenceToStaticMethod {
         Thread t = new Thread(_1_ReferenceToStaticMethod::someStaticMethod);
         t.start();
 
-        //BiFunction <Arg1,Arg2,Result>
+        //_3_PredicateAndBiPredicate <Arg1,Arg2,Result>
         BiFunction<Integer, Integer, Integer> add = Arithmetic::add;
 
         //Function<Arg,Result>
