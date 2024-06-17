@@ -1,6 +1,6 @@
 #Java Version 8
 Oracle released Java 8 in March 18, 2014. Important new updates were
-
+Oracle also stopped supporting Java 8 in January 2019
 ## Lambda expressions
 
 Lambda expression helps us to write our code in **functional style**. 
