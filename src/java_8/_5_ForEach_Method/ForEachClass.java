@@ -1,5 +1,7 @@
 package java_8._5_ForEach_Method;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -8,7 +10,7 @@ import java.util.List;
 public class ForEachClass {
 
     public static void main(String[] args) {
-        List<String> someList = List.of("A","B","C");
+        List<String> someList = Arrays.asList("A", "B", "C");
         //Simple for each
         someList.stream().parallel().forEach(System.out::println);
 
