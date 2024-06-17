@@ -675,9 +675,6 @@ EPOCH, or Nanosecond or EPOCH time:2024-06-16T05:18:06.351284Z
 Period: Difference between dates:P-30Y-6M-15D
 ```
 
-## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
-
-
 ## String joiner
 
 What ?
@@ -886,3 +883,9 @@ Atquil
 ```
 
 ## Base64 Encoding/Encryption and Decoding/Decryption
+
+## Parallel Sorting : Behave same, but use multithreading.
+
+## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
+
+
