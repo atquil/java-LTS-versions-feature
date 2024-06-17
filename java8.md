@@ -771,6 +771,9 @@ Features of stream::
 3. It's Lazy and evaluates code only when required.
 4. One element is visited only once in it's lifetime. 
 
+Streams:
+- Serial Stream till we use parallelStream to leverage multi-thread
+- LazyStream: Streams are Lazy loading, as till the **terminal operation** like **collect, forEach or reduce** is invoked, intermediate operations like filter, map and sorted are not executed. 
 There are many use-case for Stream, listing some of them here :: 
 
 ```java
