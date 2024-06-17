@@ -1159,10 +1159,11 @@ CharLength::6
 
 ## Collection 
 
+Parallel Sorting : Behave same, but use multithreading.
+Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
+
 ## Base64 Encoding/Encryption and Decoding/Decryption
 
-## Parallel Sorting : Behave same, but use multithreading.
-Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
 
 ## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
 
