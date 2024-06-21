@@ -2,7 +2,7 @@
 Oracle also stopped supporting Java 8 in January 2019
 Oracle released Java 11 in September 2018
 
-
+##
 ## HttpClient API
 
 - HttpClient class is highly versatile it can handle 
@@ -140,3 +140,18 @@ Verifying URLS
 [SUCCESS] Verified https://www.yahoo.com/
 [SUCCESS] Verified https://www.google.com/
 ```
+
+
+
+
+
+
+
+
+## Epsilon Garbage Collector
+
+This is a ‘no-op’ (no operation) garbage collector, meaning it `allocates memory but does not actually reclaim it`.
+
+
+
+
