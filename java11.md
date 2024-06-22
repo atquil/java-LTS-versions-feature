@@ -411,10 +411,55 @@ Interview Question ?
 But why write "var" when you can omit the types completely,
 An annotation, must have placed at the type i.e. an explict type or "var". 
 ```
-## Epsilon Garbage Collector
+## Epsilon Garbage Collector : Epsilon GC
+```
+Interview Question ? What is Garbage Collector ? 
+In Java, garbage collection (GC) is the process by which the Java Virtual Machine (JVM) automatically manages memory.
+- When Java programs run on the JVM, they create objects in heap. Here if object is unreachable i.e no part of program maintains a reference (null values), then GC identifies and removes objects thus freeing up memory.  
+- The garbage collector runs as a daemon thread in the background.
+```
 
-This is a ‘no-op’ (no operation) garbage collector, meaning it `allocates memory but does not actually reclaim it`.
+```
+In a production environment, you would typically use a garbage collector that actually reclaims memory, such as G1 or Shenandoah.
+```
+Epsilon GC: 
+- It manages the allocation of objects on the heap – but it has no garbage collection process to release the objects again.
+- What is the purpose of a garbage collector that does not collect garbage?
+  - **Performance tests**: In micro benchmarks, for example, where you compare different implementations of algorithms with each other, a regular garbage collector is a hindrance, as it can influence the execution times and thus falsify the measurement results. By using Epsilon GC, you can exclude such influences.
+  - **Extremely short-lived applications**, such as those developed for AWS Lambda, should be terminated as quickly as possible. A garbage collection cycle would be a waste of time if the application was terminated a few milliseconds later anyway.
+  - **Eliminating latencies**: If developers have a good understanding of the memory requirements of their application and entirely (or almost entirely) dispense with object allocations, Epsilon GC enables them to implement a latency-free application.
+- This is a ‘no-op’ (no operation) garbage collector, meaning it `allocates memory but does not actually reclaim it`.
+Type this in command line to activate.
+```
+-XX:+UseEpsilonGC
+```
+Run the program using this 
+```
+// No problem, as GC is managed
+java src/java_11/_7_EpsilonGarbageCollector/EpsilonGarbageCollector.java
+```
+```
+//Will throw OutOfMemoryError, as Epsilon does not reclaim the memory. 
+java -XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC src/java_11/_7_EpsilonGarbageCollector/EpsilonGarbageCollector
+```
+This program simply allocates a block of memory (1MB) in a loop. If you run this program with a standard garbage collector, it will run without any problems because the garbage collector will periodically free up memory that is no longer in use.
+```java
+public class EpsilonGarbageCollector {
+    public static void main(String[] args) {
+        // Let's creat 1MB size for byte
+        for (int i = 0; i < 1000; i++) {
+            byte[] b = new byte[1024 * 1024];
+        }
+    }
+    // java -XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC EpsilonGarbageCollector
+}
+```
 
-
+| Topic                   | Epsilon                                                                                                                                                                                                                                                                         | GarbageFirst(G1)                                                                                                                                                    | Shenandoah                                                                                                                                                                                                                                                                         |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description             | Epsilon is a non-operational or passive garbage collector. It allocates memory for the application but doesn’t collect unused objects. When the application exhausts the Java heap, the JVM shuts down. Essentially, Epsilon allows applications to run out of memory and crash | G1 is a server-style collector designed for multiprocessor machines with a large amount of memory. It aims to achieve high throughput along with short pause times. | Shenandoah is a low pause time garbage collector that performs more garbage collection work concurrently with the running Java program. It can relocate objects concurrently, reducing pause times. Unlike G1, Shenandoah’s pause times are not directly proportional to heap size |
+| Concurrent Collection   | No                                                                                                                                                                                                                                                                              | Yes                                                                                                                                                                 | Yes                                                                                                                                                                                                                                                                                |
+| Pause Times             | N/A                                                                                                                                                                                                                                                                             | Variable                                                                                                                                                            | Low                                                                                                                                                                                                                                                                                |
+| Heap Size Consideration | N/A                                                                                                                                                                                                                                                                             | Large heaps are beneficial for G1, as they amortize collection work more effectively. However, larger heaps may result in longer individual pause times             | Shenandoah excels in scenarios where minimizing pause times is critical, even for large heaps.                                                                                                                                                                                     |
 
 
