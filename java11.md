@@ -9,6 +9,15 @@ Oracle released Java 11 in September 2018
   - **synchronous** : `HttpClient.send()`
   - **asynchronous** communication : `HttpClient.sendAsync()` method returns a **CompletableFuture**
 - HttpClient also supports **HTTP/2 and WebSocket**
+
+| Feature                   | HTTP/1.1                                   | HTTP/2                                          |
+|---------------------------|--------------------------------------------|-------------------------------------------------|
+| **Protocol format**       | Textual (plain text messages)              | Binary (messages in binary format)              |
+| **Head of line blocking** | Yes (blocks subsequent requests)           | No (fully multiplexed)                          |
+| **Connection reuse**      | Persistent connections (keep-alive header) | Single connection for multiple requests         |
+| **Header compression**    | 	None                                      | HPACK (efficient header compression)            |
+| **Resource inlining**     | Requests resource inlining                 | Server-initiated PUSH frames for multiple pages |
+
 - http client API uses **builder pattern** for creating complex objects
 - Uses `BodyPublishers.ofString()` to send the data
 - Uses `BodyHandlers` class to receive the data
@@ -343,6 +352,65 @@ Atul
 Anand
 ```
 
+### Local Variable Syntax for Lambda parameters
+
+What is an implicitly typed lambda expression?
+
+```java
+public class LocalVariableSyntaxForLambda {
+    public static void main(String[] args) {
+
+        List<String> someNames = List.of("ATQUIL", "ATUL", "ANAND");
+
+
+        // Using an inline lambda expression with filter
+        Optional<String> result = someNames.stream()
+                .filter(name -> name.equals("ATUL"))
+                .findFirst();
+
+        System.out.println("--------Explicit Lambda Expression------");
+        result.ifPresentOrElse(
+                (String foundName) -> System.out.println("Found name: " + foundName),
+                () -> System.out.println("Name not found")
+        );
+        System.out.println("--------Implicit Lambda Expression with var ------");
+        result.ifPresentOrElse(
+                (var foundName) -> System.out.println("Found name: " + foundName),
+                () -> System.out.println("Name not found")
+        );
+        System.out.println("--------Implicit Lambda Expression without type ------");
+        result.ifPresentOrElse(
+                (foundName) -> System.out.println("Found name: " + foundName),
+                () -> System.out.println("Name not found")
+        );
+
+        // But why write "var" when you can omit the types completely,
+        System.out.println("--------Implicit Lambda Expression without type ------");
+        result.ifPresentOrElse(
+                (@NonNull var foundName) -> System.out.println("Found name: " + foundName),
+                () -> System.out.println("Name not found")
+        );
+    }
+}
+
+```
+Output
+```
+--------Explicit Lambda Expression------
+Found name: ATUL
+--------Implicit Lambda Expression with var ------
+Found name: ATUL
+--------Implicit Lambda Expression without type ------
+Found name: ATUL
+--------Implicit Lambda Expression without type ------
+Found name: ATUL
+```
+
+```
+Interview Question ?
+But why write "var" when you can omit the types completely,
+An annotation, must have placed at the type i.e. an explict type or "var". 
+```
 ## Epsilon Garbage Collector
 
 This is a ‘no-op’ (no operation) garbage collector, meaning it `allocates memory but does not actually reclaim it`.
