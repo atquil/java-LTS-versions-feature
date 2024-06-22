@@ -183,6 +183,44 @@ Why trim(), if we already have strip() ?
 strip () is the “Unicode-aware” version of trim () whose definition of whitespace goes back from Java’s first versions.
 ```
 
+```java
+public class StringObjectFeatures {
+    public static void main(String[] args) {
+
+        System.out.println("---------Multiple Lines : lines(), isBlank(), isEmpty(), strip() ---------");
+        // Multiple Lines Reading
+        String multilineString = "Line1 \n Line2 \n Line3 \n  \nLine5" ;
+
+        // Iterate on lines
+        multilineString.lines()
+                //Checks for blank and empty and removes Line4
+                .filter(line ->!line.isBlank() && !line.isEmpty())
+                // Strip
+                .map(String::strip)
+                .map(String::stripTrailing) // Remove from last
+                .map(String::stripLeading)
+                .forEach(System.out::println);
+
+
+        System.out.println("---------Repeat ---------");
+        System.out.println("Atquil will be repated 5 times:: "+"atquil".repeat(5));
+        
+    }
+}
+
+```
+
+Output:
+
+```
+---------Multiple Lines : lines(), isBlank(), isEmpty(), strip() ---------
+Line1
+Line2
+Line3
+Line5
+---------Repeat ---------
+Atquil will be repated 5 times:: atquilatquilatquilatquilatquil
+```
 
 ## Epsilon Garbage Collector
 

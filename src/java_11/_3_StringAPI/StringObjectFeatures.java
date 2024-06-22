@@ -26,5 +26,6 @@ public class StringObjectFeatures {
 
         System.out.println("---------Repeat ---------");
         System.out.println("Atquil will be repated 5 times:: "+"atquil".repeat(5));
+
     }
 }
