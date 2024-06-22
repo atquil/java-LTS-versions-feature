@@ -222,9 +222,11 @@ Line5
 Atquil will be repated 5 times:: atquilatquilatquilatquilatquil
 ```
 
-## Files.readString() and Files.writeString()
+## Files.readString(), Files.writeString() with Path.of() 
 
 Using overloaded methods, Java 11 has made it very easy to read and write on the file
+
+We can create a path easily by using `Path.of()`, instead of using Paths.get() or File.toPath()
 
 Adding a text file TextFile.txt
 ```text
@@ -240,11 +242,18 @@ public class FileReadStringAndWriteString {
   public static void main(String[] args) throws IOException {
 
     System.out.println("------------ Reading Using FileSystem -------------");
+    //Older ways of creating the path
     Path path = FileSystems.getDefault().getPath("src/java_11/_4_FileReadStringAndWriteString/TestFile.txt");
+    String multiLinesFile = Files.readString(path, StandardCharsets.UTF_8);
 
-    String multiLinesTes = Files.readString(path, StandardCharsets.UTF_8);
+    Path betterWayOfCreatingPath = Path.of("src/java_11/_4_FileReadStringAndWriteString/TestFile.txt");
+    String multiLinesFileWithNewPath= Files.readString(betterWayOfCreatingPath, StandardCharsets.UTF_8);
 
-    multiLinesTes.lines()
+    multiLinesFileWithNewPath.lines()
+            .forEach(System.out::println);
+
+    System.out.println("------------ Reading Using FileSystem with Path.of() -------------");
+    multiLinesFileWithNewPath.lines()
             .forEach(System.out::println);
 
 
@@ -257,14 +266,34 @@ public class FileReadStringAndWriteString {
     Files.readString(path, StandardCharsets.UTF_8)
             .lines()
             .forEach(System.out::println);
+
+    //We can also create Path of file instead of using Paths.get() or File.toPath() we can use
+
+    //Relative Path <path>
+    Path path1 = Path.of("src/java_11/_4_FileReadStringAndWriteString/TestFile.txt");
+    Path path2 = Path.of("src","java_11","_4_FileReadStringAndWriteString","TestFile.txt");
+    Path path3 = Path.of("src","java_11","_4_FileReadStringAndWriteString/TestFile.txt");
+
+    //Absolute Path /<path>
+    Path path5 = Path.of("/src/java_11/_4_FileReadStringAndWriteString/TestFile.txt");
+    Path path6 = Path.of("/src","java_11","_4_FileReadStringAndWriteString","TestFile.txt");
+    Path path7 = Path.of("/src","java_11","_4_FileReadStringAndWriteString/TestFile.txt");
+    Path path8 = Path.of("/","/src","java_11","_4_FileReadStringAndWriteString/TestFile.txt");
+
   }
 }
+
 
 ```
 
 Output:
 ```
 ------------ Reading Using FileSystem -------------
+Hi Everyone
+This is a test file
+
+Good By!
+------------ Reading Using FileSystem with Path.of() -------------
 Hi Everyone
 This is a test file
 
@@ -278,6 +307,42 @@ Good By!
 I am a new line
 
 ```
+
+```
+To define an absolute path, the first part must start with "/" on Linux and macOS – and with a drive letter, such as "C:" on Windows.
+```
+
+## Collection To Array
+```java
+public class CollectionToArray {
+    public static void main(String[] args) {
+
+        List<String> names = List.of("Atquil","Atul","Anand");
+
+
+        //Convert to Array (fixed size)
+        String[] namesArrBeforeJava11 = names.toArray(new String[names.size()]);		//Before Java 11
+        String[] namesArray = names.toArray(String[]::new);
+
+        Arrays.stream(namesArrBeforeJava11).forEach(System.out::println);
+        System.out.println("-----------");
+        Arrays.stream(namesArray).forEach(System.out::println);
+    }
+}
+
+```
+Output:
+
+```
+Atquil
+Atul
+Anand
+-----------
+Atquil
+Atul
+Anand
+```
+
 ## Epsilon Garbage Collector
 
 This is a ‘no-op’ (no operation) garbage collector, meaning it `allocates memory but does not actually reclaim it`.
