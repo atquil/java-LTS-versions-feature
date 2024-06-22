@@ -222,6 +222,62 @@ Line5
 Atquil will be repated 5 times:: atquilatquilatquilatquilatquil
 ```
 
+## Files.readString() and Files.writeString()
+
+Using overloaded methods, Java 11 has made it very easy to read and write on the file
+
+Adding a text file TextFile.txt
+```text
+Hi Everyone
+This is a test file
+
+Good By!
+```
+
+Reading and writing on file
+```java
+public class FileReadStringAndWriteString {
+  public static void main(String[] args) throws IOException {
+
+    System.out.println("------------ Reading Using FileSystem -------------");
+    Path path = FileSystems.getDefault().getPath("src/java_11/_4_FileReadStringAndWriteString/TestFile.txt");
+
+    String multiLinesTes = Files.readString(path, StandardCharsets.UTF_8);
+
+    multiLinesTes.lines()
+            .forEach(System.out::println);
+
+
+    System.out.println("------------ Reading Using BufferReader-------------");
+    BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+    reader.lines().forEach(System.out::println);
+
+    System.out.println("------------ Writing on file -------------");
+    Files.writeString(path,"I am a new line",StandardCharsets.UTF_8);
+    Files.readString(path, StandardCharsets.UTF_8)
+            .lines()
+            .forEach(System.out::println);
+  }
+}
+
+```
+
+Output:
+```
+------------ Reading Using FileSystem -------------
+Hi Everyone
+This is a test file
+
+Good By!
+------------ Reading Using BufferReader-------------
+Hi Everyone
+This is a test file
+
+Good By!
+------------ Writing on file -------------
+I am a new line
+
+```
 ## Epsilon Garbage Collector
 
 This is a ‘no-op’ (no operation) garbage collector, meaning it `allocates memory but does not actually reclaim it`.
