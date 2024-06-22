@@ -882,13 +882,13 @@ Atquil
 ---There are many more please check based on utilisation-
 ```
 
-## Collection: 
+ 
+## Other Features Include
+### Base64 Encoding/Encryption and Decoding/Decryption
 
-## Base64 Encoding/Encryption and Decoding/Decryption
-
-## Parallel Sorting : Behave same, but use multithreading.
+### Parallel Sorting : Behave same, but use multithreading.
 Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
 
-## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
+### Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way] [Depricated in Java 11 as evolution of ECMAScripts]
 
 

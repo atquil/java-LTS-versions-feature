@@ -142,10 +142,46 @@ Verifying URLS
 ```
 
 
+## Single File Compilation 
+
+```java
+public class SingleFileProgram{
+  public static void main(String[] args) {
+    System.out.println("I must be single file without any dependency");
+  }
+}
+```
+
+Earlier to run the java file we needed to compile then run
+
+```
+1. Switch to directory location
+2. Compile the file : javac src/java_11/_2_SingleFileProgram/SingleFileProgram.java
+      This will create a SingleFileProgram.class
+3. Now run the file using : java SingleFileProgram
+```
+Now, you can directly do 
+
+Output
+```
+❯ java src/java_11/_2_SingleFileProgram/SingleFileProgram.java
+I must be single file without any dependency
 
 
+```
+```
+Note that the program cannot use any external dependencies other than the java.base module. And program can be only single-file program
+```
 
+## String API Features
 
+Java 11 adds a few new methods to the String class like
+
+```
+Interview Question
+Why trim(), if we already have strip() ?
+strip () is the “Unicode-aware” version of trim () whose definition of whitespace goes back from Java’s first versions.
+```
 
 
 ## Epsilon Garbage Collector
