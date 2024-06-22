@@ -1,6 +1,6 @@
 #Java Version 8
 Oracle released Java 8 in March 18, 2014. Important new updates were
-
+Oracle also stopped supporting Java 8 in January 2019
 ## Lambda expressions
 
 Lambda expression helps us to write our code in **functional style**. 
@@ -941,6 +941,14 @@ Atquil
 ```
 ## Future and CompletableFuture
 
+<<<<<<< HEAD
+ 
+## Other Features Include
+### Base64 Encoding/Encryption and Decoding/Decryption
+
+### Parallel Sorting : Behave same, but use multithreading.
+Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
+=======
 - **java.util.concurrent**
 **_Future_**: It represents a future result of an asynchronous computation; a result that will eventually appear in the Future after the processing is complete. However, it does not allow you to manually complete it with a value or an exception, and it doesn’t provide methods to combine these futures or handle possible errors.
 **_CompletableFuture_**: It is an extension of Future that allows you to manually complete it with a value or an exception, and it provides a lot of methods for composing, combining, and handling errors for asynchronous computations. This makes CompletableFuture more flexible and powerful than Future.
@@ -1165,6 +1173,6 @@ Java Collection classes are **fail-fast**, which means if the Collection will be
 ## Base64 Encoding/Encryption and Decoding/Decryption
 
 
-## Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way]
+### Using Nashorn, now we can execute Javascript file in Java  [Just know that there is a way] [Depricated in Java 11 as evolution of ECMAScripts]
 
 
