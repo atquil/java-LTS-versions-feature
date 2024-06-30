@@ -59,6 +59,97 @@ Object is of type string:Atquil
  - `awaitTerminationDuration` waits for the client to shut down within a specific time duration
  - `isTerminated()` is the method which checks if the HttpClient has fully shut down.
 
+```java
+public class HttpClientEnhancedLifecycleManagement {
+    public static void main(String[] args) throws InterruptedException {
+
+
+        List<String> httpMethods = List.of("close()","shutdown()","shutdownNow()","shutdown()");
+
+        httpMethods.forEach(HttpClientEnhancedLifecycleManagement::checkHttpClient);
+
+    }
+
+    private static void checkHttpClient(String method)  {
+
+        URI uri = URI.create("https://atquil.com");
+        // Create an HttpClient
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Define a request
+        HttpRequest request =
+                HttpRequest.newBuilder()
+                        .uri(uri)
+                        .header("Content-Type", "application/json")
+                        .GET()
+                        .build();
+        try {
+            System.out.println("----------------------");
+
+            switch (method){
+                case "close()" -> {
+                    System.out.println("close():Close the client gracefully ");
+                    HttpResponse<String> response =
+                            client.send(request, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(response.statusCode() == 200 ? "[SUCCESS]" : "[FAILURE]");
+                    client.close();
+                    if (client.isTerminated()) {
+                        System.out.println("Client has terminated.");
+                    }
+
+                }
+                case "shutdown()" -> {
+                    System.out.println("shutdown() to wait for ongoing requests to finish");
+                    HttpResponse<String> response =
+                            client.send(request, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(response.statusCode() == 200 ? "[SUCCESS]" : "[FAILURE]");
+                    client.shutdown();
+                    if (client.awaitTermination(Duration.ofMinutes(1))) {
+                        System.out.println("Client terminated successfully.");
+                    } else {
+                        System.out.println("Client termination took longer than expected.");
+                    }
+
+                }
+                case "shutdownNow()" -> {
+                    System.out.println("shutdownNow() to to forcefully shut down the client");
+                    HttpResponse<String> response =
+                            client.send(request, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(response.statusCode() == 200 ? "[SUCCESS]" : "[FAILURE]");
+                    client.shutdownNow();
+                }
+                default -> System.out.println("Not found");
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error occurred: " + e.getMessage());
+        }
+
+
+    }
+}
+
+```
+
+Output:
+
+```text
+----------------------
+close():Close the client gracefully 
+[SUCCESS]
+Client has terminated.
+----------------------
+shutdown() to wait for ongoing requests to finish
+[SUCCESS]
+Client terminated successfully.
+----------------------
+shutdownNow() to to forcefully shut down the client
+[SUCCESS]
+----------------------
+shutdown() to wait for ongoing requests to finish
+[SUCCESS]
+Client terminated successfully.
+```
 ## Virtual Thread
 
 ```text
