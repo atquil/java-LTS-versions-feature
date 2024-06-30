@@ -25,6 +25,7 @@ public class _1_HttpSyncUriVerifier {
                 .build();
 
         verifyURI(uri,httpClient);
+        httpClient.close();
     }
 
     //Synchronous Request

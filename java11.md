@@ -22,7 +22,7 @@ Oracle released Java 11 in September 2018
 - Uses `BodyPublishers.ofString()` to send the data
 - Uses `BodyHandlers` class to receive the data
 - NOTE : Though, HttpClient has several advantage, one potential pitfall is the HttpClient API is immutable, which means you can’t modify its state after it’s been created. This can lead to unexpected behavior if you’re not careful.
-
+- `close()`: Closing the HttpClient ensures that any underlying resources (such as connections, threads, or sockets) are properly released. It’s especially important if your application runs for an extended period or if you create multiple HttpClient instances.
 ### Synchronous 
 ```java
 public class _1_HttpSyncUriVerifier {

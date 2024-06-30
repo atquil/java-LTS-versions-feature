@@ -41,6 +41,7 @@ public class _2_HttpAsyncURIVerifier {
         System.out.println("Verifying URLS");
         // Wait for completion (optional)
         CompletableFuture.allOf(verifyAllUris).join();
+        configHttpClient.close();
     }
 
     //Verify all URIs

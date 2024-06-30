@@ -51,6 +51,13 @@ Employee Id:: 1
 ----------------
 Object is of type string:Atquil
 ```
+## HttpClient : close()
+
+ - `close()` method which waits for any ongoing requests to finish before closing
+ - `shutdown()` starts closing the HttpClient quickly without waiting for all tasks to end
+ - `shutdownNow()` tries to shut down the HttpClient immediately, even if operations are ongoing
+ - `awaitTerminationDuration` waits for the client to shut down within a specific time duration
+ - `isTerminated()` is the method which checks if the HttpClient has fully shut down.
 
 ## Virtual Thread
 
