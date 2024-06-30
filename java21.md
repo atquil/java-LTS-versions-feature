@@ -162,4 +162,94 @@ The virtual threads are JVM-managed lightweight threads that will help in writin
 - With the introduction of virtual threads, it becomes possible to execute millions of virtual threads using only a few operating system threads. The most advantageous aspect is that there is no need to modify existing Java code. All that is required is instructing our application framework to utilize virtual threads in place of platform threads.
 - Please note that virtual threads are not faster than platform threads. They should be used to scale the number of concurrent tasks that spend much of their time waiting.
 - For example, server applications that handle many client requests and perform blocking I/O operations. For resource/processing-intensive tasks, continue using the traditional platform threads, as virtual threads will not provide any advantage.
+- Virtual threads now always support thread-local variables. 
+- Virtual threads are created through the Thread.Builder API are also monitored through their lifetime and observable in the new thread dump
+
+`Thread.ofVirtual()` : Creating specific virtual thread. 
+```java
+public class _1_ThreadOfVirtual {
+    public static void main(String[] args) throws InterruptedException {
+        System.setProperty("jdk.virtualThreadScheduler.parallelism", "1");
+        System.setProperty("jdk.virtualThreadScheduler.maxPoolSize", "1");
+        System.setProperty("jdk.virtualThreadScheduler.minRunnable", "1");
+
+        Thread v1 = Thread.ofVirtual().name("long-running-thread").start(
+                () -> {
+                    var thread = Thread.currentThread();
+                    while (true) {
+                        try {
+                            Thread.sleep(250L);
+                            System.out.println(STR."[\{thread}] - Handling http request ....");
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+        );
+        Thread v2 = Thread.ofVirtual().name("entertainment-thread").start(
+                () -> {
+                    try {
+                        Thread.sleep(1000L);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    var thread = Thread.currentThread();
+                    System.out.println(STR."[\{thread}] - Executing when 'http-thread' hit 'sleep' function");
+                }
+        );
+
+        //Execution::
+        v1.join();
+        v2.join();
+    }
+}
+
+```
+Output::
+```text
+[VirtualThread[#21,long-running-thread]/runnable@ForkJoinPool-1-worker-1] - Handling http request ....
+[VirtualThread[#21,long-running-thread]/runnable@ForkJoinPool-1-worker-1] - Handling http request ....
+[VirtualThread[#21,long-running-thread]/runnable@ForkJoinPool-1-worker-1] - Handling http request ....
+[VirtualThread[#23,entertainment-thread]/runnable@ForkJoinPool-1-worker-1] - Executing when 'http-thread' hit 'sleep' function
+[VirtualThread[#21,long-running-thread]/runnable@ForkJoinPool-1-worker-1] - Handling http request ....
+[VirtualThread[#21,long-running-thread]/runnable@ForkJoinPool-1-worker-1] - Handling http request ....
+......
+```
+`newVirtualThreadPerTaskExecutor() `: This executor creates a new virtual thread for each task
+```java
+public class _2_NewVirtualThreadPerTaskExecutor {
+    public static void main(String[] args) {
+        //For each task, creating a virtual thread
+        try(var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            IntStream.rangeClosed(1, 10).forEach(i -> {
+                executor.submit(() -> {
+                    var thread = Thread.currentThread();
+                    System.out.println("Creating a virtual thread (" + thread + "): " + i);
+                    try {
+                        Thread.sleep(Duration.ofSeconds(1));
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+            });
+        }
+    }
+}
+
+```
+
+Output:
+```text
+Creating a virtual thread (VirtualThread[#25]/runnable@ForkJoinPool-1-worker-4): 4
+Creating a virtual thread (VirtualThread[#30]/runnable@ForkJoinPool-1-worker-8): 9
+Creating a virtual thread (VirtualThread[#26]/runnable@ForkJoinPool-1-worker-5): 5
+Creating a virtual thread (VirtualThread[#28]/runnable@ForkJoinPool-1-worker-7): 7
+Creating a virtual thread (VirtualThread[#31]/runnable@ForkJoinPool-1-worker-2): 10
+Creating a virtual thread (VirtualThread[#21]/runnable@ForkJoinPool-1-worker-1): 1
+Creating a virtual thread (VirtualThread[#29]/runnable@ForkJoinPool-1-worker-8): 8
+Creating a virtual thread (VirtualThread[#23]/runnable@ForkJoinPool-1-worker-2): 2
+Creating a virtual thread (VirtualThread[#27]/runnable@ForkJoinPool-1-worker-6): 6
+Creating a virtual thread (VirtualThread[#24]/runnable@ForkJoinPool-1-worker-3): 3
+```
 

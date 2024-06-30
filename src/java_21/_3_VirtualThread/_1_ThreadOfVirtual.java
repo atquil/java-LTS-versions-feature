@@ -5,7 +5,7 @@ import static java.lang.StringTemplate.STR;
 /**
  * @author atquil
  */
-public class VirtualThread {
+public class _1_ThreadOfVirtual {
     public static void main(String[] args) throws InterruptedException {
         System.setProperty("jdk.virtualThreadScheduler.parallelism", "1");
         System.setProperty("jdk.virtualThreadScheduler.maxPoolSize", "1");
