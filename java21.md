@@ -3,6 +3,8 @@ Released on 19-Sep-2023
 
 ## SwitchWithPatternMatching
 
+Now we can use **null and objects in switch pattern**
+
 ```java
 
 class Employee{
