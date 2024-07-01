@@ -252,4 +252,103 @@ Creating a virtual thread (VirtualThread[#23]/runnable@ForkJoinPool-1-worker-2):
 Creating a virtual thread (VirtualThread[#27]/runnable@ForkJoinPool-1-worker-6): 6
 Creating a virtual thread (VirtualThread[#24]/runnable@ForkJoinPool-1-worker-3): 3
 ```
+## String Improvements
+
+### String Template
+
+Java offers several mechanisms to compose strings with string literals and expressions. Some of these are `String concatenation`, `StringBuilder class`, `String class format() method`, and the `MessageFormat` class
+
+![img.png](src%2Fjava_21%2F_4_StringTemplate%2Fimg.png)
+
+`STR`: Template Processor
+`Template`: The template strings can contain variables, methods or fields, computed at run time, to produce a formatted string as output.
+
+```java
+public class _1_StringTemplate {
+    public static void main(String[] args) {
+
+        String tutorial = "Atquil";
+        //let message = `Greetings ${ tutorial }!`;  			//TypeScript
+        String welcomeText = STR."Welcome to \{tutorial}";
+        System.out.println(welcomeText);
+    }
+}
+
+```
+Output:
+
+```text
+Welcome to Atquil
+```
+
+### New String Methods
+
+The String class has been extended by the following methods:
+
+1. `String.indexOf(String str, int beginIndex, int endIndex)` – searches the specified substring in a subrange of the string.
+2. `String.indexOf(char ch, int beginIndex, int endIndex) `– searches the specified character in a subrange of the string.
+3. `String.splitWithDelimiters(String regex, int limit)` – splits the string at substrings matched by the regular expression and returns an array of all parts and splitting strings. The string is split at most limit-1 times, i.e., the last element of the array could be further divisible.
+
+```java
+public class _2_StringMethods {
+    public static void main(String[] args) {
+        String string = "the red brown fox jumps over the lazy dog";
+
+        System.out.println("Finding index of red in string:"+string.indexOf("red",1,10));
+
+        String[] parts = string.splitWithDelimiters(" ", 2);
+        Arrays.stream(parts).forEach(System.out::println);
+        System.out.println(String.join("", parts));
+    }
+}
+
+```
+
+Output:
+```text
+Finding index of red in string:4
+the
+ 
+red brown fox jumps over the lazy dog
+the red brown fox jumps over the lazy dog
+```
+
+### StringBuilder and StringBuffer
+
+Both StringBuilder and StringBuffer have been extended by the following two methods:
+
+1. `repeat(CharSequence cs, int count)` – appends to the StringBuilder or StringBuffer the string cs – count times.
+2. `repeat(int codePoint, int count)` – appends the specified Unicode code point to the StringBuilder or StringBuffer – count times. A variable or constant of type char can also be passed as code point.
+
+```java
+public class _3_StringBuilderStringBuffer {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.repeat("Hello Everyone ", 2);
+        sb.repeat(0x1f600, 5);
+        sb.repeat('!', 3);
+        System.out.println(sb);
+    }
+}
+
+```
+
+```text
+Hello Everyone Hello Everyone 😀😀😀😀😀!!!
+```
+
+## Sequenced Collection
+
+Sequenced collections introduce a new built-in Java API, enhancing operations on **ordered datasets**
+
+SequencedCollection defines the following methods:
+
+* `void addFirst(E)` – inserts an element at the beginning of the collection 
+* `void addLast(E)` – appends an element to the end of the collection 
+* `E removeFirst()` – removes the first element and returns it 
+* `E removeLast()` – removes the last element and returns it
+* `reversed()`
+For immutable collections, all four methods throw an` UnsupportedOperationException`.
+![img.png](src%2Fjava_21%2F_5_SequencedCollection%2Fimg.png)
+
 
