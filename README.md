@@ -10,14 +10,14 @@ LTS stands for Long Term Support,  this means that support will exist for a long
 
 Different LTS Versions (Oracle Support): 
 
-| Java LTS Version | Release Date | Support Until | Topics                                                                                                                                             |  
-|------------------|--------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Java 7           | July 2011    | July 2019     | N/A                                                                                                                                                |  
-| Java 8           | March 2014   | March 2022    | `Lambda`, `Method Reference`,`Interface`,`Optional`,<br/>`forEach`,`DateTime`,`StringJoiners`,<br/>`StreamApi`,`FutureAndCompletable`              |
+| Java LTS Version | Release Date | Support Until | Topics                                                                                                                                                    |  
+|------------------|--------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Java 7           | July 2011    | July 2019     | N/A                                                                                                                                                       |  
+| Java 8           | March 2014   | March 2022    | `Lambda`, `Method Reference`,`Interface`,`Optional`,<br/>`forEach`,`DateTime`,`StringJoiners`,<br/>`StreamApi`,`FutureAndCompletable`                     |
 | Java 11          | Sept 2018    | Sept 2023     | `HttpClientAPI`,`SingleFileProgram`,`FileReadStringAndWriteString`,<br/>`CollectionToArray`,`LocalVariableSyntaxForLambda`,<br/>`EpsilonGarbageCollector` |  
-| Java 17          | Sept 2021    | Sept 2026     | `SealedClass`,`RandomGenerator`                                                                                                                    |
-| Java 21          | Sept 2023    | Sept 2028     |                                                                                                                                                    |
-| Java 25*         | Sept 2025    | Sept 2030     | N/A                                                                                                                                                |  
+| Java 17          | Sept 2021    | Sept 2026     | `SealedClass`,`RandomGenerator`                                                                                                                           |
+| Java 21          | Sept 2023    | Sept 2028     | `SwitchWithPattern`,`HttpClientLifecycle`,`VirtualThread`,<br/>`StringImprovement`,`SequencedCollection`,`RecordPattern`,                                 |
+| Java 25*         | Sept 2025    | Sept 2030     | N/A                                                                                                                                                       |  
 
 
 Sources For this Series ::
