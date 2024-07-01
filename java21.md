@@ -151,12 +151,27 @@ shutdown() to wait for ongoing requests to finish
 Client terminated successfully.
 ```
 ## Virtual Thread
-
 ```text
 Interview Question: 
 Why we need virtual thread ?
 One of the major issues with platform threads is that they run the code on the OS thread and capture the OS thread throughout its lifetime. There is a limit on the number of OS threads and this creates a scalability bottleneck.
 ```
+
+```text
+Runnable runnable = () -> System.out.println("Inside Runnable");
+
+//1
+Thread.startVirtualThread(runnable);
+
+//2
+Thread virtualThread = Thread.ofVirtual().start(runnable);
+
+//3
+var executor = Executors.newVirtualThreadPerTaskExecutor();
+executor.submit(runnable);
+```
+
+
 The virtual threads are JVM-managed lightweight threads that will help in writing high-throughput concurrent applications
 
 - With the introduction of virtual threads, it becomes possible to execute millions of virtual threads using only a few operating system threads. The most advantageous aspect is that there is no need to modify existing Java code. All that is required is instructing our application framework to utilize virtual threads in place of platform threads.
@@ -350,5 +365,60 @@ SequencedCollection defines the following methods:
 * `reversed()`
 For immutable collections, all four methods throw an` UnsupportedOperationException`.
 ![img.png](src%2Fjava_21%2F_5_SequencedCollection%2Fimg.png)
+
+
+## Record Pattern
+
+Records in Java are transparent and immutable carriers for data (similar to POJO).
+
+The record patterns eliminate the declaration of local variables for extracted components and initialize the components by invoking the accessor methods when a value is matched against the pattern
+
+### Record Pattern - Class
+```java
+interface Shape {
+    default void myShape(String myshape) {
+        System.out.println("My Shape is ::" + myshape);
+    }
+}
+
+record Circle(String type, long unit) implements Shape {
+    @Override
+    public void myShape(String myshape) {
+        System.out.println("Circle shape: " + myshape);
+    }
+}
+
+record Square(String type, long unit) implements Shape {
+    @Override
+    public void myShape(String myshape) {
+        System.out.println("Square shape: " + myshape);
+    }
+}
+
+public class RecordPattern {
+    public static void main(String[] args) {
+        Circle circle = new Circle("Circle", 50);
+        circle.myShape("Circle");
+        System.out.println(circle.type() + " with radius: " + circle.unit());
+
+        Square square = new Square("Square",33);
+        // Switch with Record
+        switch ((Shape) circle) {
+            case Circle c -> System.out.println("Switched to Circle");
+            //Now can be shown like this as well
+            case Square (String x, long size) -> System.out.println("Switched to Square");
+            default -> System.out.println("Unknown shape");
+        }
+    }
+}
+
+```
+
+Output::
+```text
+Circle with radius:50
+```
+
+### Record Pattern 
 
 
