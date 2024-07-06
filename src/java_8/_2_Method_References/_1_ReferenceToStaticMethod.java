@@ -10,12 +10,11 @@ class Arithmetic{
     public static int add(int a, int b){
         return a+b;
     }
-
     public static Integer squareOfNumber(Integer integer) {
         return integer*integer;
     }
 }
-    @FunctionalInterface
+@FunctionalInterface
 interface SomeAbstractInterFace{
     void printSomething();
 }
@@ -35,7 +34,7 @@ public class _1_ReferenceToStaticMethod {
         Thread t = new Thread(_1_ReferenceToStaticMethod::someStaticMethod);
         t.start();
 
-        //_3_PredicateAndBiPredicate <Arg1,Arg2,Result>
+        //PredicateAndBiPredicate <Arg1,Arg2,Result>
         BiFunction<Integer, Integer, Integer> add = Arithmetic::add;
 
         //Function<Arg,Result>

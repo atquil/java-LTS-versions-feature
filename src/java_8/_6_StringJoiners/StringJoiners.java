@@ -1,4 +1,4 @@
-package java_8._7_StringJoiners;
+package java_8._6_StringJoiners;
 
 import java.util.StringJoiner;
 

@@ -20,7 +20,7 @@ class StreamEmp{
     }
 }
 
-public class _5_StreamUsingLambda {
+public class _4_StreamUsingLambda {
     public static void main(String[] args) {
         List<StreamEmp> userList = new ArrayList<>();
         userList.add(new StreamEmp( 30));

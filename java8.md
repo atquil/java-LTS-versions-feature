@@ -160,6 +160,37 @@ public class _3_ThreadCreationUsingLambda {
 
 ```
 
+
+
+### With Collection Data
+
+```java
+class StreamEmp{
+   
+    private int age;
+    public StreamEmp( int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+public class _4_StreamUsingLambda {
+    public static void main(String[] args) {
+        List<StreamEmp> userList = new ArrayList<>();
+        userList.add(new StreamEmp( 30));
+        userList.add(new StreamEmp( 25));
+        userList.add(new StreamEmp( 28));
+
+        // using lambda to filter data
+        Stream<StreamEmp> filterUser = userList.stream().filter(streamEmp -> streamEmp.getAge() > 25);
+        filterUser.forEach(user -> System.out.println(user.getAge()));
+    }
+}
+
+```
 ### Comparator using Lambda Expression
 
 
@@ -206,7 +237,7 @@ class User{
     }
 
 }
-public class _4_ComparatorWithLambda {
+public class _5_ComparatorWithLambda {
 
 
     public static void main(String[] args) {
@@ -258,40 +289,9 @@ public class _4_ComparatorWithLambda {
 }
 
 ```
-
-### With Collection Data
-
-```java
-class StreamEmp{
-   
-    private int age;
-    public StreamEmp( int age) {
-        this.age = age;
-    }
-
-    public int getAge() {
-        return age;
-    }
-}
-
-public class _5_StreamUsingLambda {
-    public static void main(String[] args) {
-        List<StreamEmp> userList = new ArrayList<>();
-        userList.add(new StreamEmp( 30));
-        userList.add(new StreamEmp( 25));
-        userList.add(new StreamEmp( 28));
-
-        // using lambda to filter data
-        Stream<StreamEmp> filterUser = userList.stream().filter(streamEmp -> streamEmp.getAge() > 25);
-        filterUser.forEach(user -> System.out.println(user.getAge()));
-    }
-}
-
-```
-
 ## Method Reference
 
-Method reference is used to refer method of functional interface.It is a compact and easy form of lambda expression. Each time when you are using lambda expression to just referring a method, you can replace your lambda expression with method reference.
+Method reference is used to refer method of functional interface. It is a compact and easy form of lambda expression. Each time when you are using lambda expression to just referring a method, you can replace your lambda expression with method reference.
 
 There are three ways of doing method references: 
 1. Reference to a static method. 
@@ -941,14 +941,8 @@ Atquil
 ```
 ## Future and CompletableFuture
 
-<<<<<<< HEAD
  
-## Other Features Include
-### Base64 Encoding/Encryption and Decoding/Decryption
 
-### Parallel Sorting : Behave same, but use multithreading.
-Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
-=======
 - **java.util.concurrent**
 **_Future_**: It represents a future result of an asynchronous computation; a result that will eventually appear in the Future after the processing is complete. However, it does not allow you to manually complete it with a value or an exception, and it doesn’t provide methods to combine these futures or handle possible errors.
 **_CompletableFuture_**: It is an extension of Future that allows you to manually complete it with a value or an exception, and it provides a lot of methods for composing, combining, and handling errors for asynchronous computations. This makes CompletableFuture more flexible and powerful than Future.
@@ -1164,7 +1158,12 @@ CharLength::6
 
 ```
 
+## Other Features Include
+### Base64 Encoding/Encryption and Decoding/Decryption
 
+### Parallel Sorting : Behave same, but use multithreading.
+Java Collection classes are **fail-fast**, which means if the Collection will be changed while some thread is traversing over it using iterator, the iterator.next() will throw ConcurrentModificationException.
+=======
 ## Collection 
 
 Parallel Sorting : Behave same, but use multithreading.

@@ -40,7 +40,7 @@ class User{
     }
 
 }
-public class _4_ComparatorWithLambda {
+public class _5_ComparatorWithLambda {
 
 
     public static void main(String[] args) {

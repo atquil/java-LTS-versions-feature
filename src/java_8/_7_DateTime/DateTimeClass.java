@@ -1,4 +1,4 @@
-package java_8._6_DateTime;
+package java_8._7_DateTime;
 
 import java.time.*;
 
