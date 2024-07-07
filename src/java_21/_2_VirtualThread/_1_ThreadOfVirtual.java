@@ -1,4 +1,4 @@
-package java_21._3_VirtualThread;
+package java_21._2_VirtualThread;
 
 import static java.lang.StringTemplate.STR;
 
