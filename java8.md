@@ -771,6 +771,31 @@ Features of stream::
 3. It's Lazy and evaluates code only when required.
 4. One element is visited only once in it's lifetime. 
 
+map() vs flatMap()
+1.	Map(): One-to-One Transformation: when elelment of a stream transformed to another object using function
+2.	FlatMap(): One-to-Many Transformation : when elements transformed into multiple elements and flattened into single stream. Used when dealing with nested structure.
+
+```java
+public class MapVsFlatMap {
+    public static void main(String[] args) {
+        List<List<Integer>> listOfLists = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5),
+                Arrays.asList(6, 7, 8)
+        );
+        List<Integer> flattenedList = listOfLists.stream()
+                .flatMap(list -> list.stream())
+                .toList();
+        System.out.println(flattenedList); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+    }
+}
+```
+```text
+Output:
+[1, 2, 3, 4, 5, 6, 7, 8]
+```
+
 Streams:
 - Serial Stream till we use parallelStream to leverage multi-thread
 - LazyStream: Streams are Lazy loading, as till the **terminal operation** like **collect, forEach or reduce** is invoked, intermediate operations like filter, map and sorted are not executed. 
